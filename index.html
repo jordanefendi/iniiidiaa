@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galeri Bucin 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: #ffe6ec;
+      color: #d6336c;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin: 20px 10px 10px;
+    }
+
+    p {
+      font-size: 1em;
+      margin: 0 20px 20px;
+    }
+
+    .main-photo {
+      width: 90%;
+      max-width: 400px;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .main-photo:hover {
+      transform: scale(1.03);
+    }
+
+    /* Modal slideshow */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 90%;
+      max-height: 80vh;
+      border-radius: 12px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .modal-content.show {
+      opacity: 1;
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      color: white;
+      font-size: 35px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .nav-button {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: 50px;
+      height: 50px;
+      margin-top: -25px;
+      color: white;
+      font-weight: bold;
+      font-size: 30px;
+      user-select: none;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      line-height: 50px;
+      text-align: center;
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.7em;
+      }
+      .nav-button {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        line-height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>My Girl</h1>
+  <p>Klik foto ini</p>
+
+  <img src="gambar1.jpg" alt="Foto utama" class="main-photo" onclick="openModal(0)" />
+
+  <div id="myModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="slideImage" />
+    <div class="nav-button prev" onclick="changeSlide(-1)">❮</div>
+    <div class="nav-button next" onclick="changeSlide(1)">❯</div>
+  </div>
+
+  <script>
+    const photos = ['gambar2.jpg', 'gambar3.jpg', 'gambar4.jpg', 'gambar5.jpg','gambar6.jpg'];
+    let currentSlide = 0;
+
+    function openModal(index) {
+      currentSlide = index;
+      document.getElementById("myModal").style.display = "block";
+      showSlide(currentSlide);
+    }
+
+    function closeModal() {
+      document.getElementById("myModal").style.display = "none";
+    }
+
+    function changeSlide(n) {
+      currentSlide = (currentSlide + n + photos.length) % photos.length;
+      showSlide(currentSlide);
+    }
+
+    function showSlide(index) {
+      const slideImg = document.getElementById("slideImage");
+      slideImg.classList.remove("show");
+      setTimeout(() => {
+        slideImg.src = photos[index];
+        slideImg.onload = () => {
+          slideImg.classList.add("show");
+        };
+      }, 100);
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("myModal");
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
